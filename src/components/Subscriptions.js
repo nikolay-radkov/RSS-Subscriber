@@ -1,6 +1,8 @@
 var React = require('react-native');
-var SubscriptionStore = require( '../stores/subscriptionStore');
-var SubscriptionActions = require( '../actions/subscriptionActions');
+//var SubscriptionStore = require( '../stores/subscriptionStore');
+//var SubscriptionActions = require( '../actions/subscriptionActions');
+
+var{ StorageService } = require('../services');
 
 var { 
 	View,
@@ -9,45 +11,39 @@ var {
 
 var Subscriptions = React.createClass({
 	getInitialState: function() {
-		var subscriptions = SubscriptionStore.getAll();
+		var subscriptions = StorageService.getAll();
 		return { 
 			subscriptions: subscriptions
 		}
 	},
 
-	componentWillMount: function () {
-		SubscriptionStore.addChangeListener(this._onChange);
-	},
-
-	componentWillUnmount: function () {
-		SubscriptionStore.removeChangeListener(this._onChange);
-	},
-
 	componentDidMount:function() {
-        WebPullToRefresh.init({
-            loadingFunction: this.refresh
-        });
+       
 	},
 
 	_onChange: function () {
-		this.setState({ subscriptions: SubscriptionStore.getAll() });
+		this.setState({ subscriptions: StorageService.getAll() });
 	},
 
 	deleteSubscription: function (id) {
-		toastr.error('RSS deleted successfully');
-		SubscriptionActions.remove(id);
+		StorageService.remove(id);
 	},
 
   	refresh: function() {
-  		return new Promise( function( resolve, reject ) {
+  		/*return new Promise( function( resolve, reject ) {
 
 			SubscriptionActions.updateAll();
 
 			resolve();
-		});
+		});*/
+  	},
+
+  	nextPage: function() {
+
   	},
 
 	render: function(argument) {
+		console.log('Log message');
 		var content;
 		var self = this;
 		if (this.state.subscriptions && this.state.subscriptions.length > 0) {
@@ -56,7 +52,7 @@ var Subscriptions = React.createClass({
 				index = subscription.feedUrl.indexOf('/', index);
 				var url = subscription.feedUrl.substring(0, index);
 
-				return <TouchableHighlight key={subscription.id}  onPress={this.nextPage} underlayColor="transparent" className="list-item">
+				return <TouchableHighlight key={subscription.id}  onPress={self.nextPage} underlayColor="transparent" className="list-item">
 					<View className="info">
 						/*<Image src={ url + "/favicon.ico" } className="favicon"/>*/
 						<View className="title">
@@ -70,12 +66,12 @@ var Subscriptions = React.createClass({
 						</View>*/
 					</View>
 					<View className="buttons">
-					 	<Button bsStyle="danger" onClick={self.deleteSubscription.bind(self, subscription.id)}>Delete</Button>
+					 	<TouchableHighlight bsStyle="danger" onPress={self.deleteSubscription.bind(self, subscription.id)}>Delete</TouchableHighlight>
 					</View>
 				</TouchableHighlight>
 			})
 		} else {
-			content = <h1>No elements added yet</h1>;
+			content = <View>No elements added yet</View>;
 		}
 
 		return (

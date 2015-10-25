@@ -1,17 +1,32 @@
 var _  = require( 'lodash');
 
-class StorageService  {
-	static getNewId() {
-		var nextId = localStorage.getItem('nextId');
-		if(!nextId){
-			nextId = 0;
-		}
+var React = require('react-native');
+var { AsyncStorage } = React;
+var q = require('q');
 
-		nextId++;
-		localStorage.setItem('nextId', nextId);
-		return nextId;
+var StorageService  = (function(){
+	function getNewId() {
+		var deferred = q.defer();
+
+		AsyncStorage.getItem('nextId', function(error, nextId){
+			if(error){
+				deferred.reject();
+			}
+
+			if(!nextId){
+				nextId = 0;
+			}
+
+			nextId++;
+			AsyncStorage.setItem('nextId', nextId);
+
+			deferred.resolve(nextId);
+		});
+		
+		return deferred.promise;
 	}
-	static setEntriesIndex(subscription) {
+
+	function setEntriesIndex(subscription) {
 		subscription.entries.sort(function(a, b){
 			return new Date(b.publishedDate) - new Date(a.publishedDate);
 		});
@@ -20,26 +35,54 @@ class StorageService  {
 			subscription.entries[i].id = i;
 		};
 	}
-	static getAll() {
-		return JSON.parse(localStorage.getItem('subscriptions'));
+
+	function getAll() {
+		var deferred = q.defer();
+		
+		AsyncStorage.getItem('subscriptions', function(error, data){
+			if(error) {
+				deferred.reject(error);
+			}
+
+			deferred.resolve(JSON.parse(data));
+		});
+		
+
+		return deferred.promise;
 	}
-	static add(item) {
-		var subscriptions = JSON.parse(localStorage.getItem('subscriptions'));
-		if (!subscriptions) {
-			subscriptions = [];
-		}
-		item.id = this.getNewId();
-		this.setEntriesIndex(item);
-		subscriptions.push(item);
-		localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+
+	function add(item) {
+		var deferred = q.defer();
+debugger;
+		getAll().then(function(subscriptions){
+			if (!subscriptions) {
+				subscriptions = [];
+			}
+
+			getNewId().then(function(nextId){
+				item.id = nextId;
+				setEntriesIndex(item);
+				subscriptions.push(item);
+				AsyncStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+				deferred.resolve();
+			},
+			function(){
+				deferred.reject();
+			})
+			
+		});
+
+		return deferred.promise;
 	}
-	static getById(id) {
+
+	function getById(id) {
 		var subscriptions = JSON.parse(localStorage.getItem('subscriptions'));
 		var subscription = _.find(subscriptions, {id: id});
 
 		return subscription;
 	}
-	static remove(id) {
+	
+	function remove(id) {
 		var subscriptions = JSON.parse(localStorage.getItem('subscriptions'));
 		var index = _.findIndex(subscriptions, function(subscription) {
 		  	return subscription.id == id;
@@ -47,7 +90,8 @@ class StorageService  {
 		subscriptions.splice(index, 1);
 		localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
 	}
-	static update(id, item) {
+	
+	function update(id, item) {
 		var subscriptions = JSON.parse(localStorage.getItem('subscriptions'));
 		var index = _.findIndex(subscriptions, function(subscription) {
 		  	return subscription.id == id;
@@ -59,6 +103,17 @@ class StorageService  {
 			localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
 		}
 	}
-}
+
+
+	return {
+		getNewId: getNewId,
+		setEntriesIndex: setEntriesIndex,
+		getAll: getAll,
+		add: add,
+		getById: getById,
+		remove: remove,
+		update: update
+	}
+}());
 
 module.exports = StorageService;

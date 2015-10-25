@@ -1,3 +1,1 @@
-var Dispatcher = require('flux').Dispatcher;
-
-module.exports = new Dispatcher();
+module.exports = require('flux-util').createDispatcher();

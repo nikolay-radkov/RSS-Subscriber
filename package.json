@@ -6,10 +6,9 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "flux": "^2.1.1",
+    "flux-util": "^0.1.2",
     "gb-native-router": "^0.4.3",
     "q": "^1.4.1",
-    "react-native": "^0.12.0",
-    "react-router": "^0.13.4"
+    "react-native": "^0.13.1"
   }
 }
