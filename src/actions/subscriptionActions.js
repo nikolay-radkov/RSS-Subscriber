@@ -1,8 +1,8 @@
 "use strict"
 
-import Dispatcher from '../dispatcher/appDispatcher';
-import ActionTypes from '../constants/actionTypes';
-import { HttpService, StorageService } from '../services';
+var Dispatcher  = require( '../dispatcher/appDispatcher');
+var ActionTypes  = require( '../constants/actionTypes');
+var { HttpService, StorageService }  = require( '../services');
 
 var SubscriptionActions = {
 	create: function(url) {

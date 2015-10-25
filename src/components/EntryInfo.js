@@ -1,17 +1,7 @@
-var React = require('react');
-import { Link } from 'react-router';
-import EntryStore from '../stores/entryStore';
-import { NormalLayout } from './common';
+var React = require('react-native');
+var EntryStore  = require( '../stores/entryStore');
+var { NormalLayout }  = require( './common');
 
-import { 
-	ListGroup,
-	ListGroupItem,
-	Grid,
-	Row,
-	Col,
-	Button,
-	Jumbotron
-} from 'react-bootstrap';
 var EntryInfo = React.createClass({
 	getInitialState: function() {
 		var ids = this.props.params.entryId.split('|');

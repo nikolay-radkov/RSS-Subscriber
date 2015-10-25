@@ -1,18 +1,8 @@
-var React = require('react');
+var React = require('react-native');
 
-import EntryStore from '../stores/entryStore';
-import SubscriptionActions from '../actions/subscriptionActions';
-import { Link } from 'react-router';
-import { 
-	ListGroup,
-	ListGroupItem,
-	Grid,
-	Row,
-	Col,
-	Button
-} from 'react-bootstrap';
-
-import { PullDownLayout } from './common';
+var EntryStore  = require( '../stores/entryStore');
+var SubscriptionActions  = require( '../actions/subscriptionActions');
+var { PullDownLayout }  = require( './common');
 
 var Entries = React.createClass({
 	getInitialState: function() {

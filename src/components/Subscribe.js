@@ -1,18 +1,12 @@
-import React from 'react';
-import { History } from 'react-router';
-import { 
-	Input, 
-	ButtonInput
-} from 'react-bootstrap';
-
-import { 
+var React  = require( 'react-native');
+var { 
 	StorageService, 
 	HttpService 
-} from '../services';
+}  = require( '../services');
 
-import SubscriptionStore from '../stores/subscriptionStore';
-import SubscriptionActions from '../actions/subscriptionActions';
-import { NormalLayout } from './common';
+var SubscriptionStore  = require( '../stores/subscriptionStore');
+var SubscriptionActions  = require( '../actions/subscriptionActions');
+var { NormalLayout }  = require( './common');
 
 var Subscribe = React.createClass({
 	getInitialState: function() {

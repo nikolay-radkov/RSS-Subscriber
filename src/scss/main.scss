@@ -1,14 +1,10 @@
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap";
-@import "../lib/web-pull-to-refresh/lib/genericons/genericons.css";
-@import "../lib/toastr/toastr.scss";
-
  body {
  	height: 100%;
  	background: #333;
  }
 
 * {
- 	font-family: "Comic Sans MS", cursive, sans-serif !important;
+ 	font-family: "Comic Sans MS", cursive, sans-serif !varant;
 }
 
 .landing {
@@ -208,13 +204,13 @@
 
 		.rss-left {
 			background: url('../images/left-window.png');
-			background-size: cover !important;
+			background-size: cover !varant;
 	    	background-repeat: no-repeat;
 		}
 
 		.rss-right {
 			background: url('../images/right-window.png');
-			background-size: cover !important;
+			background-size: cover !varant;
 	    	background-repeat: no-repeat;
 		}
 	}
@@ -321,7 +317,7 @@
 }
 
 .list-group-item{
-	background-color: rgba(255,255,255, 0.3) !important;
+	background-color: rgba(255,255,255, 0.3) !varant;
 }
 
 .elements {

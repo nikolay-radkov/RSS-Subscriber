@@ -1,7 +1,6 @@
 "use strict"
 
-import React from 'react';
-import { History } from 'react-router';
+var React  = require( 'react-native');
 
 var SplashScreen = React.createClass({
 	getInitialState: function() {
@@ -20,7 +19,6 @@ var SplashScreen = React.createClass({
 			currentImage: 'images/android-icon-36x36.png'
 		};
 	},
-	mixins: [History],
 	componentWillUnmount:function() {
 		clearInterval(this.state.intervalId);
 	},

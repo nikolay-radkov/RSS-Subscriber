@@ -1,10 +1,10 @@
 "use strict";
 
-import Dispatcher from '../dispatcher/appDispatcher';
-import ActionTypes from '../constants/actionTypes';
-import { EventEmitter } from 'events';
-import { StorageService } from '../services';
-import _ from 'lodash';
+var Dispatcher  = require( '../dispatcher/appDispatcher');
+var ActionTypes  = require( '../constants/actionTypes');
+var { EventEmitter }  = require( 'events');
+var { StorageService }  = require( '../services');
+var _  = require( 'lodash');
 const CHANGE_EVENT = 'change';
 
 var _subscriptions = [];

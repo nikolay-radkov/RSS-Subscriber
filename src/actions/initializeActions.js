@@ -1,8 +1,8 @@
 "use strict"
 
-import Dispatcher from '../dispatcher/appDispatcher';
-import ActionTypes from '../constants/actionTypes';
-import { StorageService } from '../services';
+var Dispatcher  = require( '../dispatcher/appDispatcher');
+var ActionTypes  = require( '../constants/actionTypes');
+var { StorageService }  = require( '../services');
 
 var InitializeActions = {
 	initApp: function() {
